@@ -6,14 +6,16 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    private final ProductService repository;
 
-    public ProductService(ProductService repository) {
+    private final ProductRepository repository;
+
+    public ProductService(ProductRepository repository) {
         this.repository = repository;
     }
 
     public Product create(Product product) {
-        if(repository.existsBySku(product.getSku())) {
+
+        if (repository.existsBySku(product.getSku())) {
             throw new RuntimeException("SKU already exists");
         }
 
@@ -24,8 +26,8 @@ public class ProductService {
         return repository.findAll();
     }
 
-    public Product findBy(Long id) {
-        return repository.findBy(id)
+    public Product findById(Long id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 }
