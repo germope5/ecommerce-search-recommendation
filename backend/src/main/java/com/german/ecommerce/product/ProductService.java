@@ -3,6 +3,8 @@ package com.german.ecommerce.product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import com.german.ecommerce.product.dto.CreateProductRequest;
+import com.german.ecommerce.product.dto.ProductResponse;
 
 @Service
 public class ProductService {
@@ -13,21 +15,51 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public Product create(Product product) {
+    public ProductResponse create(CreateProductRequest request) {
 
-        if (repository.existsBySku(product.getSku())) {
+        if (repository.existsBySku(request.getSku())) {
             throw new RuntimeException("SKU already exists");
         }
 
-        return repository.save(product);
+        Product product = new Product();
+        product.setSku(request.getSku());
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+
+        Product saved = repository.save(product);
+
+        return toResponse(saved);
     }
 
-    public List<Product> findAll() {
-        return repository.findAll();
+    public List<ProductResponse> findAll() {
+
+        return repository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+
     }
 
-    public Product findById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+    public ProductResponse findById(Long id) {
+
+        Product product = repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Product not found"));
+
+        return toResponse(product);
+    }
+
+    private ProductResponse toResponse(Product product) {
+
+        ProductResponse response = new ProductResponse();
+
+        response.setId(product.getId());
+        response.setSku(product.getSku());
+        response.setName(product.getName());
+        response.setDescription(product.getDescription());
+        response.setPrice(product.getPrice());
+
+        return response;
     }
 }
