@@ -1,5 +1,7 @@
 package com.german.ecommerce.product.dto;
 
+import java.math.BigDecimal;
+
 public class ProductResponse {
     private Long id;
     private String sku;
