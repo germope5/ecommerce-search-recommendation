@@ -1,5 +1,8 @@
 package com.german.ecommerce.product;
 
+import com.german.ecommerce.product.dto.CreateProductRequest;
+import com.german.ecommerce.product.dto.ProductResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,17 +18,19 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product create(@RequestBody Product product) {
-        return service.create(product);
+    public ProductResponse create(
+            @Valid @RequestBody CreateProductRequest request) {
+
+        return service.create(request);
     }
 
     @GetMapping
-    public List<Product> findAll() {
+    public List<ProductResponse> findAll() {
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public Product findById(@PathVariable Long id) {
+    public ProductResponse findById(@PathVariable Long id) {
         return service.findById(id);
     }
 }
