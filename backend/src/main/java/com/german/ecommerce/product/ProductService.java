@@ -6,6 +6,8 @@ import java.util.List;
 import com.german.ecommerce.product.dto.CreateProductRequest;
 import com.german.ecommerce.product.dto.ProductResponse;
 import com.german.ecommerce.product.dto.UpdateProductRequest;
+import com.german.ecommerce.exception.ProductNotFoundException;
+import com.german.ecommerce.exception.DuplicateSkuException;
 
 @Service
 public class ProductService {
@@ -19,7 +21,7 @@ public class ProductService {
     public ProductResponse create(CreateProductRequest request) {
 
         if (repository.existsBySku(request.getSku())) {
-            throw new RuntimeException("SKU already exists");
+            throw new DuplicateSkuException("SKU already exists");
         }
 
         Product product = new Product();
@@ -46,8 +48,7 @@ public class ProductService {
 
         Product product = repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Product not found"));
-
+                        new ProductNotFoundException("Product not found"));
         return toResponse(product);
     }
 
