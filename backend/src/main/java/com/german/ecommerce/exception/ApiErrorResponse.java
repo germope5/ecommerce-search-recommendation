@@ -2,6 +2,7 @@ package com.german.ecommerce.exception;
 
 import java.util.Map;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiErrorResponse {
     private int status;
     private String message;
