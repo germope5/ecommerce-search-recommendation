@@ -4,6 +4,7 @@ import com.german.ecommerce.product.dto.CreateProductRequest;
 import com.german.ecommerce.product.dto.ProductResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import com.german.ecommerce.product.dto.UpdateProductRequest;
 
 import java.util.List;
 
@@ -32,5 +33,12 @@ public class ProductController {
     @GetMapping("/{id}")
     public ProductResponse findById(@PathVariable Long id) {
         return service.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ProductResponse update(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateProductRequest request) {
+        return service.update(id, request);
     }
 }

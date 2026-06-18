@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import com.german.ecommerce.product.dto.CreateProductRequest;
 import com.german.ecommerce.product.dto.ProductResponse;
+import com.german.ecommerce.product.dto.UpdateProductRequest;
 
 @Service
 public class ProductService {
@@ -61,5 +62,21 @@ public class ProductService {
         response.setPrice(product.getPrice());
 
         return response;
+    }
+
+    // Método para Actualizar productos
+    public ProductResponse update (
+            Long id,
+            UpdateProductRequest request) {
+        Product product = repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Product not found"));
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+
+        Product updated = repository.save(product);
+
+        return toResponse(updated);
     }
 }
