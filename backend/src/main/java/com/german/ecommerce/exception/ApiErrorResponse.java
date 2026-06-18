@@ -10,13 +10,13 @@ public class ApiErrorResponse {
 
     public ApiErrorResponse(){}
 
-    //Errores de negocio,(404,409,etc)
+    // Errores de negocio,(404,409,etc)
     public ApiErrorResponse(int status, String message){
         this.status = status;
         this.message = message;
     }
 
-    //Errores de validación (400)
+    // Errores de validación (400)
     public ApiErrorResponse(int status, Map<String, String> errors){
         this.status = status;
         this.errors = errors;

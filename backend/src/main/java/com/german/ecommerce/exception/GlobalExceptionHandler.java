@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
                         ex.getMessage()
                 );
                 return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(response);
+                        .body(response);
         }
     
 
