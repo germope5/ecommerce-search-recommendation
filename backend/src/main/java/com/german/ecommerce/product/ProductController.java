@@ -5,6 +5,7 @@ import com.german.ecommerce.product.dto.ProductResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import com.german.ecommerce.product.dto.UpdateProductRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -40,5 +41,12 @@ public class ProductController {
             @PathVariable Long id,
             @Valid @RequestBody UpdateProductRequest request) {
         return service.update(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(
+            @PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

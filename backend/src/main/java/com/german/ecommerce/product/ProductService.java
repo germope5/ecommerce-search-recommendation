@@ -79,4 +79,14 @@ public class ProductService {
 
         return toResponse(updated);
     }
+
+    //Método para Eliminar un producto
+    public void delete(Long id) {
+
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Product not found");
+        }
+
+        repository.deleteById(id);
+    }
 }
