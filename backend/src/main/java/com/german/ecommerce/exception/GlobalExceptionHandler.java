@@ -12,19 +12,33 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleRuntimeException(
-            RuntimeException ex) {
-        ErrorResponse response = new ErrorResponse(ex.getMessage());
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleProductNotFound(
+            ProductNotFoundException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage()
+        );
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
 
+    @ExceptionHandler(DuplicateSkuException.class)
+    public ResponseEntity<ApiErrorResponse> handleDuplicateSku(
+        DuplicateSkuException ex) {
+                ApiErrorResponse response = new ApiErrorResponse(
+                        HttpStatus.CONFLICT.value(),
+                        ex.getMessage()
+                );
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(response);
+        }
+    
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorResponse>
-    handleValidationException(
+    public ResponseEntity<ApiErrorResponse>
+    handleValidation(
             MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
 
@@ -35,7 +49,10 @@ public class GlobalExceptionHandler {
                                 error.getField(),
                                 error.getDefaultMessage()
                         ));
-        ValidationErrorResponse response = new ValidationErrorResponse("Validation failed", errors);
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                errors
+        );
 
         return ResponseEntity
                 .badRequest()
