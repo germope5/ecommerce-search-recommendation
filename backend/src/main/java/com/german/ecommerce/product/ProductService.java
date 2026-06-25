@@ -71,7 +71,7 @@ public class ProductService {
             UpdateProductRequest request) {
         Product product = repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Product not found"));
+                        new ProductNotFoundException("Product not found"));
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setPrice(request.getPrice());
@@ -85,7 +85,7 @@ public class ProductService {
     public void delete(Long id) {
 
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Product not found");
+            throw new ProductNotFoundException("Product not found");
         }
 
         repository.deleteById(id);
