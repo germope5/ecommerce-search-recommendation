@@ -12,10 +12,12 @@ import java.math.BigDecimal;
 @Schema(description = "Datos para crear un producto")
 public class CreateProductRequest {
 
+    @Schema(example = "IPHONE17-001")
     @NotBlank(message = "SKU is required")
     @Size(max = 50, message = "SKU cannot exceed 50 characters")
     private String sku;
 
+    @Schema(example = "iPhone 17")
     @NotBlank(message = "Product name is required")
     @Size(max = 255, message = "Product name cannot exceed 255 characters")
     private String name;
