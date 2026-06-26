@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
+@Schema(description = "Datos para actualizar un producto")
 public class UpdateProductRequest {
     @NotBlank(message = "Product name is required")
     @Size(max = 255)

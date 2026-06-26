@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 import java.math.BigDecimal;
 
+@Schema(description = "Datos para crear un producto")
 public class CreateProductRequest {
 
     @NotBlank(message = "SKU is required")
